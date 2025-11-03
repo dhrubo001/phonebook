@@ -1,11 +1,7 @@
 <div>
     <div class="bg-white rounded-xl shadow p-6 mt-10">
         <h2 class="text-lg font-semibold mb-4 text-gray-700">Saved Contacts</h2>
-        @if (session()->has('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-3">
-                {{ session('success') }}
-            </div>
-        @endif
+        @include('includes.flashMessage')
         <table class="w-full border-collapse">
             <thead>
                 <tr class="bg-indigo-100 text-indigo-800">

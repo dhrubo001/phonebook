@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Hash;
 
 // Test route
@@ -19,5 +20,7 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [DashboardController::class, 'getDashboard'])->name('dashboard');
     Route::get('/contacts', [DashboardController::class, 'getContacts'])->name('contacts');
+    Route::get('/settings', [SettingController::class, 'getSetting'])->name('getSettings');
+
     Route::get('/logout', [DashboardController::class, 'logout'])->name('logout');
 });

@@ -35,7 +35,7 @@ class Setting extends Component
                 ->first();
 
             if ($existingUser) {
-                session()->flash('error', 'The email address is already registered.');
+                session()->flash('profile_error', 'The email address is already registered.');
                 return;
             }
 
@@ -46,9 +46,9 @@ class Setting extends Component
 
             $this->dispatch('profileUpdated');
 
-            session()->flash('success', 'Profile updated successfully.');
+            session()->flash('profile_success', 'Profile updated successfully.');
         } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while updating the profile.');
+            session()->flash('profile_error', 'An error occurred while updating the profile.');
             return;
         }
     }
@@ -64,12 +64,6 @@ class Setting extends Component
 
         try {
             $user = auth()->user();
-            // dd($user);
-            // if (!Hash::check($this->current_password, $user->password)) {
-            //     session()->flash('error', 'Current password is incorrect.');
-            //     return;
-            // }
-
             $user->password = Hash::make($this->new_password);
             $user->save();
 

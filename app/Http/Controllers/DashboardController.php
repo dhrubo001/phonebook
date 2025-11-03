@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -9,15 +10,14 @@ class DashboardController extends Controller
     public function getDashboard()
     {
         $title = 'Dashboard';
-        $contacts = Auth::user()->contacts;
-        return view('pages.dashboard', compact('title', 'contacts'));
+        return view('pages.dashboard', compact('title'));
     }
 
     public function getContacts()
     {
         $title = 'Contacts';
-        $contacts = Auth::user()->contacts;
-        return view('pages.contacts', compact('title', 'contacts'));
+        //$contacts = Contact::where('user_id', Auth::id())->latest()->paginate(10);
+        return view('pages.contacts', compact('title'));
     }
 
     public function logout()

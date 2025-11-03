@@ -2,5 +2,5 @@
 
 @section('content')
     <!-- Contact List Table -->
-    @livewire('contact-list', ['contacts' => $contacts])
+    @livewire('contact-list')
 @endsection

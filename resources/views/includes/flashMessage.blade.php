@@ -9,3 +9,15 @@
          {{ session('error') }}
      </div>
  @endif
+
+ @if (session()->has($key . '_success'))
+     <div class="bg-green-100 text-green-800 px-4 py-2 rounded-lg mb-4">
+         {{ session($key . '_success') }}
+     </div>
+ @endif
+
+ @if (session()->has($key . '_error'))
+     <div class="bg-red-100 text-red-800 px-4 py-2 rounded-lg mb-4">
+         {{ session($key . '_error') }}
+     </div>
+ @endif

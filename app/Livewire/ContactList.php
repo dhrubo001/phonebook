@@ -4,57 +4,41 @@ namespace App\Livewire;
 
 use App\Models\Contact;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 
 class ContactList extends Component
 {
-    protected $listeners = ['contactAdded' => 'refreshContacts'];
+    use WithPagination;
+
+    protected $listeners = ['contactAdded' => '$refresh']; // triggers a re-render automatically
+
     public $contactId;
     public $name;
     public $phone;
     public $email;
     public $showEditModal = false;
-    public $contacts;
-
-    public function refreshContacts()
-    {
-        $this->contacts = Contact::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
-    }
-
-    public function mount($contacts = null)
-    {
-
-        $this->contacts = $contacts ?? collect();
-    }
 
     public function editContact($contactId)
     {
-
         $this->contactId = $contactId;
 
-        $contact = Contact::find($this->contactId);
+        $contact = Contact::find($contactId);
 
-        if ($contact && $contact->user_id === Auth::user()->id) {
-
-            // Reset validation errors
+        if ($contact && $contact->user_id === Auth::id()) {
             $this->resetValidation();
-
             $this->name = $contact->name;
-
             $this->phone = $contact->phone;
-
             $this->email = $contact->email;
-
             $this->showEditModal = true;
         } else {
-            // Contact not found or access denied
             session()->flash('error', 'Contact not found or access denied.');
         }
     }
+
     public function closeModal()
     {
         $this->showEditModal = false;
-
         $this->reset(['name', 'phone', 'email']);
     }
 
@@ -62,8 +46,7 @@ class ContactList extends Component
     {
         $contact = Contact::find($this->contactId);
 
-        if ($contact && $contact->user_id === Auth::user()->id) {
-
+        if ($contact && $contact->user_id === Auth::id()) {
             $this->validate([
                 'name' => 'required|string|max:255',
                 'phone' => 'required|string|max:20',
@@ -76,15 +59,10 @@ class ContactList extends Component
                 'email' => $this->email,
             ]);
 
-            // Close the modal
             $this->closeModal();
-
-            // Refresh the contacts list
-            $this->refreshContacts();
-
             session()->flash('success', 'Contact updated successfully.');
+            $this->resetPage(); // optional: reset pagination to first page
         } else {
-
             session()->flash('error', 'Contact not found or access denied.');
         }
     }
@@ -93,23 +71,21 @@ class ContactList extends Component
     {
         $contact = Contact::find($contactId);
 
-        if ($contact && $contact->user_id === Auth::user()->id) {
-
+        if ($contact && $contact->user_id === Auth::id()) {
             $contact->delete();
-
-            // Refresh the contacts list
-            $this->refreshContacts();
-
             session()->flash('success', 'Contact deleted successfully.');
+            $this->resetPage();
         } else {
-
             session()->flash('error', 'Contact not found or access denied.');
         }
     }
 
     public function render()
     {
+        $contacts = Contact::where('user_id', Auth::id())
+            ->latest()
+            ->paginate(5);
 
-        return view('livewire.contact-list');
+        return view('livewire.contact-list', compact('contacts'));
     }
 }

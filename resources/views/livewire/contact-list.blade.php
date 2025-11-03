@@ -1,5 +1,5 @@
 <div>
-    <div class="bg-white rounded-xl shadow p-6 mt-10">
+    <div class="bg-white rounded-xl shadow p-6 mt-5">
         <h2 class="text-lg font-semibold mb-4 text-gray-700">Saved Contacts</h2>
         @include('includes.flashMessage')
         <table class="w-full border-collapse">
@@ -13,30 +13,41 @@
                 </tr>
             </thead>
             <tbody class="divide-y">
-                @if ($contacts->isEmpty())
+                @if ($contacts->count() == 0)
                     <tr>
                         <td colspan="5" class="text-center py-4 text-gray-500">No contacts found.</td>
                     </tr>
-                @endif
-                @foreach ($contacts as $contact)
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-2 px-3">{{ $loop->iteration }}</td>
-                        <td class="py-2 px-3">{{ $contact->name }}</td>
-                        <td class="py-2 px-3">{{ $contact->phone }}</td>
-                        <td class="py-2 px-3">{{ $contact->email }}</td>
-                        <td class="py-2 px-3">
-                            <button class="text-blue-600 hover:underline"
-                                wire:click="editContact({{ $contact->id }})">Edit</button>
-                            <button class="text-red-600 hover:underline ml-2"
-                                wire:click="deleteContact({{ $contact->id }})"
-                                wire:confirm="Are you sure you want to delete this contact?">Delete</button>
-                        </td>
-                    </tr>
-                @endforeach
+                @else
+                    @foreach ($contacts as $contact)
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-2 px-3">{{ $loop->iteration }}</td>
+                            <td class="py-2 px-3">{{ $contact->name }}</td>
+                            <td class="py-2 px-3">{{ $contact->phone }}</td>
+                            <td class="py-2 px-3">{{ $contact->email }}</td>
+                            <td class="py-2 px-3">
+                                <div class="flex space-x-2">
+                                    <button
+                                        class="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                                        wire:click="editContact({{ $contact->id }})">
+                                        Edit
+                                    </button>
 
+                                    <button
+                                        class="px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+                                        wire:click="deleteContact({{ $contact->id }})"
+                                        wire:confirm="Are you sure you want to delete this contact?">
+                                        Delete
+                                    </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
 
             </tbody>
         </table>
+        {{ $contacts->links() }}
     </div>
 
     @if ($showEditModal)

@@ -1,7 +1,7 @@
 <div>
     <div class="bg-white shadow-xl rounded-2xl w-full max-w-md p-8">
         <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Profile Settings</h2>
-        @include('includes.flashMessage')
+        @include('includes.flashMessage', ['key' => 'profile'])
         <!-- Update Name & Email Form -->
         <form class="space-y-5" wire:submit.prevent="updateProfile">
             <div>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Reset Password Form -->
-        @include('includes.flashMessage')
+        @include('includes.flashMessage', ['key' => 'password'])
         <form class="space-y-5" wire:submit.prevent="resetPassword">
             <div>
                 <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>

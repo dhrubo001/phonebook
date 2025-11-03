@@ -82,8 +82,6 @@ class Setting extends Component
         }
     }
 
-
-
     public function render()
     {
         return view('livewire.setting');

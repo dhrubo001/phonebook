@@ -16,7 +16,6 @@ class DashboardController extends Controller
     public function getContacts()
     {
         $title = 'Contacts';
-        //$contacts = Contact::where('user_id', Auth::id())->latest()->paginate(10);
         return view('pages.contacts', compact('title'));
     }
 

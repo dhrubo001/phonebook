@@ -1,6 +1,7 @@
 @extends('master.index')
 @section('content')
     <div class="w-full max-w-md bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8">
+        @include('includes.flashMessage')
         <div class="text-center mb-6">
             <h1 class="text-3xl font-bold text-gray-800 mb-2">Welcome Back 👋</h1>
             <p class="text-gray-500 text-sm">Please sign in to your account</p>

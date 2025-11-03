@@ -37,23 +37,36 @@
         </div>
 
         <!-- Reset Password Form -->
-        <form class="space-y-5">
+        @include('includes.flashMessage')
+        <form class="space-y-5" wire:submit.prevent="resetPassword">
             <div>
                 <label for="current_password" class="block text-sm font-medium text-gray-700">Current Password</label>
-                <input type="password" id="current_password" name="current_password" placeholder="••••••••"
+                <input type="password" id="current_password" wire:model="current_password" name="current_password"
+                    placeholder="••••••••"
                     class="mt-1 block w-full rounded-xl border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" />
+                @error('current_password')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div>
                 <label for="new_password" class="block text-sm font-medium text-gray-700">New Password</label>
-                <input type="password" id="new_password" name="new_password" placeholder="••••••••"
+                <input type="password" id="new_password" wire:model="new_password" name="new_password"
+                    placeholder="••••••••"
                     class="mt-1 block w-full rounded-xl border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" />
+                @error('new_password')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div>
                 <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••"
+                <input type="password" wire:model="new_password_confirmation" name="new_password_confirmation"
+                    id="new_password_confirmation" placeholder="••••••••"
                     class="mt-1 block w-full rounded-xl border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm" />
+                @error('new_password_confirmation')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <button type="submit"

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Hash;
 use App\Models\User;
 use Livewire\Component;
 
@@ -10,6 +11,9 @@ class Setting extends Component
 
     public $name;
     public $email;
+    public $current_password;
+    public $new_password;
+    public $new_password_confirmation;
 
     public function mount()
     {
@@ -48,6 +52,44 @@ class Setting extends Component
             return;
         }
     }
+
+
+
+    public function resetPassword()
+    {
+        $this->validate([
+            'current_password' => ['required', 'current_password'],
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        try {
+            $user = auth()->user();
+            // dd($user);
+            // if (!Hash::check($this->current_password, $user->password)) {
+            //     session()->flash('error', 'Current password is incorrect.');
+            //     return;
+            // }
+
+            $user->password = Hash::make($this->new_password);
+            $user->save();
+
+            // Clear inputs
+            $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
+
+            // Logout and redirect
+            auth()->logout();
+            session()->invalidate();
+            session()->regenerateToken();
+
+            return redirect()->route('login')->with('success', 'Password updated successfully. Please log in again.');
+        } catch (\Exception $e) {
+            session()->flash('error', 'An error occurred while updating the password.');
+            return;
+        }
+    }
+
+
+
     public function render()
     {
         return view('livewire.setting');

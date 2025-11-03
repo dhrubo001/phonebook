@@ -23,13 +23,13 @@
                     placeholder="••••••••" />
             </div>
 
-            <div class="flex items-center justify-between text-sm">
+            {{-- <div class="flex items-center justify-between text-sm">
                 <label class="flex items-center space-x-2 text-gray-600">
                     <input type="checkbox" class="text-indigo-600 rounded" />
                     <span>Remember me</span>
                 </label>
                 <a href="#" class="text-indigo-600 hover:underline">Forgot password?</a>
-            </div>
+            </div> --}}
 
             <button type="submit"
                 class="w-full bg-indigo-600 text-white font-semibold py-2.5 rounded-lg hover:bg-indigo-700 transition-all duration-200">
